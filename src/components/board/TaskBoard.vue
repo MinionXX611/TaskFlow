@@ -2,7 +2,7 @@
 import { computed, ref } from 'vue'
 import BoardColumn from './BoardColumn.vue'
 
-const props = defineProps({ tasksForStatus: { type: Function, required: true } })
+const props = defineProps({ tasksForStatus: { type: Function, required: true }, searchQuery: { type: String, default: '' }, isTaskMatch: { type: Function, required: true } })
 const emit = defineEmits(['edit-task', 'move-task'])
 const draggedTaskId = ref(null)
 
@@ -29,11 +29,13 @@ function dropTask(status, event) {
 </script>
 
 <template>
-  <section aria-label="任务看板" class="mx-auto grid max-w-7xl gap-5 p-4 sm:p-6 lg:grid-cols-3 lg:p-8">
+  <section aria-label="任务看板" class="grid w-full gap-6 p-5 sm:p-8 lg:grid-cols-3 lg:p-10">
     <BoardColumn
       v-for="column in columns"
       :key="column.id"
       :column="column"
+      :is-task-match="isTaskMatch"
+      :search-query="searchQuery"
       :tasks="tasksByStatus[column.id]"
       @drag-start="startDrag"
       @drop-task="dropTask"

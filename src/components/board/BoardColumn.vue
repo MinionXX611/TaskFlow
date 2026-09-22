@@ -11,6 +11,14 @@ defineProps({
     type: Array,
     required: true,
   },
+  searchQuery: {
+    type: String,
+    default: '',
+  },
+  isTaskMatch: {
+    type: Function,
+    required: true,
+  },
 })
 
 const emit = defineEmits(['drag-start', 'drop-task', 'edit-task'])
@@ -25,19 +33,21 @@ function onDrop(column, event) {
 <template>
   <section
     :class="{ 'ring-2 ring-indigo-400': isDragOver }"
-    class="min-h-80 rounded-xl bg-slate-100 p-4 transition dark:bg-slate-900/70"
+    class="min-h-96 rounded-2xl bg-slate-100 p-5 transition dark:bg-slate-900/70"
     @dragenter.prevent="isDragOver = true"
     @dragover.prevent
     @dragleave="isDragOver = false"
     @drop.prevent="onDrop(column, $event)"
   >
     <div class="mb-4 flex items-center justify-between">
-      <h2 class="font-semibold">{{ column.title }}</h2>
+      <h2 class="text-lg font-semibold">{{ column.title }}</h2>
       <span class="rounded-full bg-white px-2 py-0.5 text-xs text-slate-500 dark:bg-slate-800 dark:text-slate-400">{{ tasks.length }}</span>
     </div>
     <div v-if="tasks.length" class="space-y-2">
       <TaskCard
         v-for="task in tasks"
+        :has-active-search="Boolean(searchQuery.trim())"
+        :is-search-match="isTaskMatch(task)"
         :key="task.id"
         :task="task"
         @drag-start="emit('drag-start', task.id, $event)"

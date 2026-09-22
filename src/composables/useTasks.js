@@ -14,10 +14,12 @@ export function useTasks() {
   const tasks = ref(loadTasks())
   const searchQuery = ref('')
   watch(tasks, (currentTasks) => saveTasks(currentTasks), { deep: true })
-  const visibleTasks = computed(() => {
+  function isTaskMatch(task) {
     const keyword = searchQuery.value.trim().toLocaleLowerCase()
-    return keyword ? tasks.value.filter((task) => task.title.toLocaleLowerCase().includes(keyword)) : tasks.value
-  })
+    return !keyword || task.title.toLocaleLowerCase().includes(keyword)
+  }
+
+  const matchedTaskCount = computed(() => tasks.value.filter(isTaskMatch).length)
   function addTask(input) { tasks.value.push({ id: createId(), ...normalizeInput(input), status: TASK_STATUS.TODO }) }
   function updateTask(id, input) {
     const task = tasks.value.find((item) => item.id === id)
@@ -30,7 +32,7 @@ export function useTasks() {
     if (task) task.status = status
   }
   function tasksForStatus(status) {
-    return visibleTasks.value.filter((task) => task.status === status).toSorted((a, b) => priorityOrder[a.priority] - priorityOrder[b.priority])
+    return tasks.value.filter((task) => task.status === status).toSorted((a, b) => priorityOrder[a.priority] - priorityOrder[b.priority])
   }
-  return { searchQuery, addTask, updateTask, deleteTask, moveTask, tasksForStatus }
+  return { searchQuery, matchedTaskCount, isTaskMatch, addTask, updateTask, deleteTask, moveTask, tasksForStatus }
 }
