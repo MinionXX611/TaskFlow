@@ -16,7 +16,7 @@ const priority = computed(() => ({
 
 <template>
   <article
-    :class="[priority, { 'ring-2 ring-indigo-500 ring-offset-2 dark:ring-offset-slate-950': hasActiveSearch && isSearchMatch, 'opacity-35': hasActiveSearch && !isSearchMatch }]"
+    :class="[priority, { 'outline outline-2 outline-indigo-500 outline-offset-2': hasActiveSearch && isSearchMatch, 'opacity-35': hasActiveSearch && !isSearchMatch }]"
     class="flex cursor-grab items-center gap-3 rounded-xl p-5 shadow-sm transition hover:shadow-md active:cursor-grabbing"
     draggable="true"
     @dragstart="emit('drag-start', $event)"
