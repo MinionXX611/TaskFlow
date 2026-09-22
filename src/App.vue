@@ -33,7 +33,7 @@ function removeTask() {
 </script>
 
 <template>
-  <main class="min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
+  <main class="flex min-h-screen flex-col bg-slate-50 text-lg text-slate-900 dark:bg-slate-950 dark:text-slate-100">
     <AppHeader
       v-model:search-query="searchQuery"
       :matched-task-count="matchedTaskCount"

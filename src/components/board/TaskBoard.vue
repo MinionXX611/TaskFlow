@@ -29,7 +29,7 @@ function dropTask(status, event) {
 </script>
 
 <template>
-  <section aria-label="任务看板" class="grid w-full grid-cols-3 gap-4 px-4 py-6 sm:px-6 lg:px-8">
+  <section aria-label="任务看板" class="grid w-full flex-1 grid-cols-3 gap-4 px-4 py-6 sm:px-6 lg:px-8">
     <BoardColumn
       v-for="column in columns"
       :key="column.id"

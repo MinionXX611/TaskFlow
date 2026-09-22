@@ -33,15 +33,15 @@ function onDrop(column, event) {
 <template>
   <section
     :class="{ 'ring-2 ring-indigo-400': isDragOver }"
-    class="min-h-96 rounded-2xl bg-slate-100 p-5 transition dark:bg-slate-900/70"
+    class="h-full min-h-96 rounded-2xl bg-slate-100 p-5 transition dark:bg-slate-900/70"
     @dragenter.prevent="isDragOver = true"
     @dragover.prevent
     @dragleave="isDragOver = false"
     @drop.prevent="onDrop(column, $event)"
   >
     <div class="mb-4 flex items-center justify-between">
-      <h2 class="text-lg font-semibold">{{ column.title }}</h2>
-      <span class="rounded-full bg-white px-2 py-0.5 text-xs text-slate-500 dark:bg-slate-800 dark:text-slate-400">{{ tasks.length }}</span>
+      <h2 class="text-xl font-semibold">{{ column.title }}</h2>
+      <span class="rounded-full bg-white px-3 py-1 text-sm text-slate-500 dark:bg-slate-800 dark:text-slate-400">{{ tasks.length }}</span>
     </div>
     <div v-if="tasks.length" class="space-y-2">
       <TaskCard
@@ -54,6 +54,6 @@ function onDrop(column, event) {
         @edit="emit('edit-task', task)"
       />
     </div>
-    <p v-else class="py-8 text-center text-sm text-slate-400">暂无任务</p>
+    <p v-else class="py-8 text-center text-base text-slate-400">暂无任务</p>
   </section>
 </template>
