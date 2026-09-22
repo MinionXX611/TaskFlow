@@ -1,6 +1,6 @@
 <script setup>
-defineProps({ searchQuery: { type: String, default: '' }, matchedTaskCount: { type: Number, default: 0 } })
-const emit = defineEmits(['update:searchQuery', 'create'])
+defineProps({ searchQuery: { type: String, default: '' }, matchedTaskCount: { type: Number, default: 0 }, isDark: { type: Boolean, default: false } })
+const emit = defineEmits(['update:searchQuery', 'create', 'toggleTheme'])
 </script>
 
 <template>
@@ -16,6 +16,14 @@ const emit = defineEmits(['update:searchQuery', 'create'])
         @input="emit('update:searchQuery', $event.target.value)"
         @search="emit('update:searchQuery', $event.target.value)"
       />
+      <button
+        :aria-label="isDark ? '切换为浅色模式' : '切换为深色模式'"
+        class="shrink-0 rounded-xl border border-slate-300 px-4 py-3 text-lg font-medium text-slate-700 transition hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800"
+        type="button"
+        @click="emit('toggleTheme')"
+      >
+        {{ isDark ? '☀ 浅色' : '☾ 深色' }}
+      </button>
       <span v-if="searchQuery" class="shrink-0 text-base text-slate-500 dark:text-slate-400">匹配 {{ matchedTaskCount }} 项</span>
       <button v-if="searchQuery" class="shrink-0 rounded-lg px-3 py-2 text-base font-medium text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800" type="button" @click="emit('update:searchQuery', '')">清除</button>
       <button
