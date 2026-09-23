@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, screen } = require('electron')
+const { app, BrowserWindow, ipcMain, screen, shell } = require('electron')
 const path = require('node:path')
 
 const moveStates = new WeakMap()
@@ -12,6 +12,19 @@ function enableAutoLaunch() {
   })
 }
 
+function createDesktopShortcut() {
+  if (process.platform !== 'win32') return
+  const target = process.execPath
+  shell.writeShortcutLink(path.join(app.getPath('desktop'), 'TaskFlow.lnk'), {
+    target,
+    args: app.isPackaged ? '' : `"${app.getAppPath()}"`,
+    cwd: app.getAppPath(),
+    description: 'TaskFlow 桌面任务板',
+    icon: target,
+    iconIndex: 0,
+  })
+}
+
 function createWindow() {
   const mainWindow = new BrowserWindow({
     width: 480,
@@ -22,6 +35,7 @@ function createWindow() {
     transparent: true,
     resizable: true,
     show: false,
+    skipTaskbar: true,
     backgroundColor: '#00000000',
     webPreferences: {
       contextIsolation: true,
@@ -46,6 +60,7 @@ function createWindow() {
 
 app.whenReady().then(() => {
   enableAutoLaunch()
+  createDesktopShortcut()
   createWindow()
 })
 
