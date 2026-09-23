@@ -31,10 +31,10 @@ function submitForm() {
 </script>
 
 <template>
-  <div v-if="open" class="fixed inset-0 z-10 flex items-center justify-center bg-slate-950/40 p-4" @click.self="emit('close')">
+  <div v-if="open" class="fixed inset-0 z-10 flex items-center justify-center bg-slate-950/30 p-4" @click.self="emit('close')">
     <section
       aria-modal="true"
-      class="w-full max-w-xl rounded-2xl bg-white p-7 shadow-xl dark:bg-slate-900"
+      class="no-window-drag w-full max-w-xl rounded-2xl bg-white/80 p-7 shadow-xl"
       role="dialog"
       :aria-label="task ? '编辑任务' : '新建任务'"
     >

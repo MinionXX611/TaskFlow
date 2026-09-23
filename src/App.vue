@@ -32,7 +32,7 @@ function removeTask() {
 </script>
 
 <template>
-  <main class="flex min-h-screen flex-col bg-slate-50 text-lg text-slate-900">
+  <main class="window-drag-surface flex min-h-screen flex-col overflow-hidden bg-slate-50/75 text-lg text-slate-900">
     <div aria-label="拖动窗口" class="window-drag-handle" />
     <TaskBoard
       :tasks-for-status="tasksForStatus"

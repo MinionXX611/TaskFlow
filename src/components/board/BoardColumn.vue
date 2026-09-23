@@ -25,7 +25,7 @@ function onDrop(column, event) {
 <template>
   <section
     :class="{ 'ring-2 ring-indigo-400': isDragOver }"
-    class="h-full min-h-96 rounded-2xl bg-slate-100 p-5 transition"
+    class="h-full min-h-0 overflow-hidden rounded-2xl bg-slate-100/70 p-5 transition"
     @dragenter.prevent="isDragOver = true"
     @dragover.prevent
     @dragleave="isDragOver = false"
@@ -33,9 +33,9 @@ function onDrop(column, event) {
   >
     <div class="mb-4 flex items-center justify-between">
       <h2 class="text-xl font-semibold">{{ column.title }}</h2>
-      <span class="rounded-full bg-white px-3 py-1 text-sm text-slate-500">{{ tasks.length }}</span>
+      <span class="rounded-full bg-white/70 px-3 py-1 text-sm text-slate-500">{{ tasks.length }}</span>
     </div>
-    <div v-if="tasks.length" class="space-y-2">
+    <div v-if="tasks.length" class="space-y-2 overflow-hidden">
       <TaskCard
         v-for="task in tasks"
         :key="task.id"

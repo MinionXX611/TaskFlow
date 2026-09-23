@@ -9,7 +9,14 @@ body,
 #app {
   min-width: 100%;
   min-height: 100%;
+  overflow: hidden;
   margin: 0;
+  background: transparent;
+}
+
+.window-drag-surface {
+  opacity: 0.86;
+  -webkit-app-region: drag;
 }
 
 .window-drag-handle {

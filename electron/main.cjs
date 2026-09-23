@@ -8,8 +8,10 @@ function createWindow() {
     minWidth: 480,
     minHeight: 420,
     frame: false,
+    transparent: true,
     alwaysOnTop: true,
-    backgroundColor: '#f8fafc',
+    resizable: true,
+    backgroundColor: '#00000000',
     webPreferences: {
       contextIsolation: true,
       nodeIntegration: false,
