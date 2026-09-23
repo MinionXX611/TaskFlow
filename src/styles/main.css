@@ -16,13 +16,8 @@ body,
 
 .window-drag-surface {
   opacity: 0.86;
-  -webkit-app-region: drag;
-}
-
-.window-drag-handle {
-  height: 0.75rem;
-  flex: 0 0 auto;
-  -webkit-app-region: drag;
+  cursor: grab;
+  user-select: none;
 }
 
 .no-window-drag {

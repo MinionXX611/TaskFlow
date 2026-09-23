@@ -26,7 +26,7 @@ export function useTasks() {
     if (task) task.status = status
   }
   function tasksForStatus(status) {
-    return tasks.value.filter((task) => task.status === status).toSorted((a, b) => priorityOrder[a.priority] - priorityOrder[b.priority])
+    return tasks.value.filter((task) => (status === TASK_STATUS.TODO ? task.status !== TASK_STATUS.DONE : task.status === TASK_STATUS.DONE)).toSorted((a, b) => priorityOrder[a.priority] - priorityOrder[b.priority])
   }
   return { addTask, updateTask, deleteTask, moveTask, tasksForStatus }
 }

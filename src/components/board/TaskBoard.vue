@@ -7,8 +7,8 @@ const emit = defineEmits(['create', 'edit-task', 'delete-task', 'move-task'])
 const draggedTaskId = ref(null)
 
 const columns = [
-  { id: 'todo', title: '待办' },
-  { id: 'in-progress', title: '进行中' },
+  { id: 'todo', title: '未完成' },
+  { id: 'done', title: '已完成' },
 ]
 
 const tasksByStatus = computed(() => Object.fromEntries(
@@ -32,7 +32,7 @@ function dropTask(status, event) {
     <div class="no-window-drag mb-4 flex justify-end">
       <button class="rounded-xl bg-indigo-600 px-4 py-2 text-base font-semibold text-white transition hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500" type="button" @click="emit('create')">新建任务</button>
     </div>
-    <div class="grid min-h-0 flex-1 grid-cols-2 gap-4">
+    <div class="grid min-h-0 flex-1 grid-cols-1 grid-rows-2 gap-4">
       <BoardColumn
         v-for="column in columns"
         :key="column.id"
