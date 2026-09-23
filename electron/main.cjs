@@ -3,6 +3,15 @@ const path = require('node:path')
 
 const moveStates = new WeakMap()
 
+function enableAutoLaunch() {
+  if (process.platform !== 'win32') return
+  app.setLoginItemSettings({
+    openAtLogin: true,
+    path: process.execPath,
+    args: app.isPackaged ? [] : [app.getAppPath()],
+  })
+}
+
 function createWindow() {
   const mainWindow = new BrowserWindow({
     width: 480,
@@ -23,19 +32,22 @@ function createWindow() {
 
   mainWindow.once('ready-to-show', () => {
     const workArea = screen.getPrimaryDisplay().workArea
-    const { width, height } = mainWindow.getBounds()
+    const width = Math.min(Math.max(Math.round(workArea.width / 3), 380), 560)
     mainWindow.setBounds({
-      x: workArea.x + workArea.width - width - 12,
-      y: workArea.y + 12,
+      x: workArea.x + workArea.width - width,
+      y: workArea.y,
       width,
-      height: Math.min(height, workArea.height - 24),
+      height: workArea.height,
     })
     mainWindow.show()
   })
   mainWindow.loadFile(path.join(__dirname, '../dist/index.html'))
 }
 
-app.whenReady().then(createWindow)
+app.whenReady().then(() => {
+  enableAutoLaunch()
+  createWindow()
+})
 
 ipcMain.on('window-move-start', (event, point) => {
   const targetWindow = BrowserWindow.fromWebContents(event.sender)

@@ -28,7 +28,7 @@ function dropTask(status, event) {
 </script>
 
 <template>
-  <section aria-label="任务看板" class="flex min-h-0 w-full flex-1 flex-col overflow-hidden px-4 pb-6">
+  <section aria-label="任务看板" class="flex min-h-0 w-full flex-1 flex-col overflow-hidden px-4 pb-6 pt-5">
     <div class="no-window-drag mb-4 flex justify-end">
       <button class="rounded-xl bg-indigo-600 px-4 py-2 text-base font-semibold text-white transition hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500" type="button" @click="emit('create')">新建任务</button>
     </div>
