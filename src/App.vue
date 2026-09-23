@@ -8,6 +8,7 @@ const { addTask, updateTask, deleteTask, moveTask, tasksForStatus } = useTasks()
 const isEditorOpen = ref(false)
 const editingTask = ref(null)
 let moveTimer = null
+let suppressNextClick = false
 let isMovingWindow = false
 
 function openCreate() {
@@ -46,11 +47,21 @@ function startWindowMove(event) {
 function moveWindow(event) {
   if (isMovingWindow) window.desktopWindow?.move({ x: event.screenX, y: event.screenY })
 }
-function stopWindowMove() {
+function stopWindowMove(event) {
   if (moveTimer) window.clearTimeout(moveTimer)
   moveTimer = null
-  if (isMovingWindow) window.desktopWindow?.endMove()
+  if (isMovingWindow) {
+    window.desktopWindow?.endMove()
+    suppressNextClick = true
+    event?.preventDefault()
+    window.setTimeout(() => { suppressNextClick = false }, 0)
+  }
   isMovingWindow = false
+}
+function preventCreateAfterMove(event) {
+  if (!suppressNextClick) return
+  event.preventDefault()
+  event.stopPropagation()
 }
 </script>
 
@@ -59,6 +70,7 @@ function stopWindowMove() {
     class="window-drag-surface flex min-h-screen flex-col overflow-hidden bg-slate-50/75 text-lg text-slate-900"
     @pointercancel="stopWindowMove"
     @pointerdown="startWindowMove"
+    @click.capture="preventCreateAfterMove"
     @pointermove="moveWindow"
     @pointerup="stopWindowMove"
   >
