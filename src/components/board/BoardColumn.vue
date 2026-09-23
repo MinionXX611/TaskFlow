@@ -31,10 +31,6 @@ function onDrop(column, event) {
     @dragleave="isDragOver = false"
     @drop.prevent="onDrop(column, $event)"
   >
-    <div class="mb-4 flex items-center justify-between">
-      <h2 class="text-xl font-semibold">{{ column.title }}</h2>
-      <span class="rounded-full bg-white/70 px-3 py-1 text-sm text-slate-500">{{ tasks.length }}</span>
-    </div>
     <div v-if="tasks.length" class="space-y-2 overflow-hidden">
       <TaskCard
         v-for="task in tasks"
