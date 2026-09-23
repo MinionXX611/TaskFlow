@@ -25,7 +25,7 @@ function onDrop(column, event) {
 <template>
   <section
     :class="{ 'ring-2 ring-indigo-400': isDragOver }"
-    class="h-full min-h-0 overflow-hidden rounded-2xl bg-slate-100/70 p-5 transition"
+    class="no-window-drag h-full min-h-0 overflow-hidden rounded-2xl bg-slate-100/70 p-5 transition"
     @dragenter.prevent="isDragOver = true"
     @dragover.prevent
     @dragleave="isDragOver = false"
