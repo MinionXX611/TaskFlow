@@ -1,4 +1,4 @@
-import { computed, ref, watch } from 'vue'
+import { ref, watch } from 'vue'
 import { PRIORITY, TASK_STATUS } from '../constants/task'
 import { loadTasks, saveTasks } from '../services/storage'
 
@@ -12,14 +12,8 @@ function normalizeInput(input) {
 
 export function useTasks() {
   const tasks = ref(loadTasks())
-  const searchQuery = ref('')
   watch(tasks, (currentTasks) => saveTasks(currentTasks), { deep: true })
-  function isTaskMatch(task) {
-    const keyword = searchQuery.value.trim().toLocaleLowerCase()
-    return !keyword || task.title.toLocaleLowerCase().includes(keyword)
-  }
 
-  const matchedTaskCount = computed(() => tasks.value.filter(isTaskMatch).length)
   function addTask(input) { tasks.value.push({ id: createId(), ...normalizeInput(input), status: TASK_STATUS.TODO }) }
   function updateTask(id, input) {
     const task = tasks.value.find((item) => item.id === id)
@@ -34,5 +28,5 @@ export function useTasks() {
   function tasksForStatus(status) {
     return tasks.value.filter((task) => task.status === status).toSorted((a, b) => priorityOrder[a.priority] - priorityOrder[b.priority])
   }
-  return { searchQuery, matchedTaskCount, isTaskMatch, addTask, updateTask, deleteTask, moveTask, tasksForStatus }
+  return { addTask, updateTask, deleteTask, moveTask, tasksForStatus }
 }

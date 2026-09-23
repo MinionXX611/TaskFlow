@@ -2,14 +2,13 @@
 import { computed, ref } from 'vue'
 import BoardColumn from './BoardColumn.vue'
 
-const props = defineProps({ tasksForStatus: { type: Function, required: true }, searchQuery: { type: String, default: '' }, isTaskMatch: { type: Function, required: true } })
-const emit = defineEmits(['edit-task', 'move-task'])
+const props = defineProps({ tasksForStatus: { type: Function, required: true } })
+const emit = defineEmits(['create', 'edit-task', 'delete-task', 'move-task'])
 const draggedTaskId = ref(null)
 
 const columns = [
   { id: 'todo', title: '待办' },
   { id: 'in-progress', title: '进行中' },
-  { id: 'done', title: '已完成' },
 ]
 
 const tasksByStatus = computed(() => Object.fromEntries(
@@ -29,17 +28,21 @@ function dropTask(status, event) {
 </script>
 
 <template>
-  <section aria-label="任务看板" class="grid w-full flex-1 grid-cols-3 gap-4 px-4 py-6 sm:px-6 lg:px-8">
-    <BoardColumn
-      v-for="column in columns"
-      :key="column.id"
-      :column="column"
-      :is-task-match="isTaskMatch"
-      :search-query="searchQuery"
-      :tasks="tasksByStatus[column.id]"
-      @drag-start="startDrag"
-      @drop-task="dropTask"
-      @edit-task="emit('edit-task', $event)"
-    />
+  <section aria-label="任务看板" class="flex w-full flex-1 flex-col px-4 pb-6 sm:px-6 lg:px-8">
+    <div class="no-window-drag mb-4 flex justify-end">
+      <button class="rounded-xl bg-indigo-600 px-4 py-2 text-base font-semibold text-white transition hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500" type="button" @click="emit('create')">新建任务</button>
+    </div>
+    <div class="grid flex-1 grid-cols-1 gap-4 md:grid-cols-2">
+      <BoardColumn
+        v-for="column in columns"
+        :key="column.id"
+        :column="column"
+        :tasks="tasksByStatus[column.id]"
+        @drag-start="startDrag"
+        @drop-task="dropTask"
+        @edit-task="emit('edit-task', $event)"
+        @delete-task="emit('delete-task', $event)"
+      />
+    </div>
   </section>
 </template>

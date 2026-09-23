@@ -1,7 +1,23 @@
 @import "tailwindcss";
 
-@custom-variant dark (&:where(.dark, .dark *));
-
 @theme {
   --font-sans: "Inter", "PingFang SC", "Microsoft YaHei", ui-sans-serif, system-ui, sans-serif;
+}
+
+html,
+body,
+#app {
+  min-width: 100%;
+  min-height: 100%;
+  margin: 0;
+}
+
+.window-drag-handle {
+  height: 0.75rem;
+  flex: 0 0 auto;
+  -webkit-app-region: drag;
+}
+
+.no-window-drag {
+  -webkit-app-region: no-drag;
 }

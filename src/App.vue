@@ -1,13 +1,10 @@
 <script setup>
 import { ref } from 'vue'
-import AppHeader from './components/layout/AppHeader.vue'
 import TaskBoard from './components/board/TaskBoard.vue'
 import TaskEditorModal from './components/board/TaskEditorModal.vue'
 import { useTasks } from './composables/useTasks'
-import { useTheme } from './composables/useTheme'
 
-const { searchQuery, matchedTaskCount, isTaskMatch, addTask, updateTask, deleteTask, moveTask, tasksForStatus } = useTasks()
-const { isDark, toggleTheme } = useTheme()
+const { addTask, updateTask, deleteTask, moveTask, tasksForStatus } = useTasks()
 const isEditorOpen = ref(false)
 const editingTask = ref(null)
 
@@ -35,20 +32,14 @@ function removeTask() {
 </script>
 
 <template>
-  <main class="flex min-h-screen flex-col bg-slate-50 text-lg text-slate-900 dark:bg-slate-950 dark:text-slate-100">
-    <AppHeader
-      v-model:search-query="searchQuery"
-      :is-dark="isDark"
-      :matched-task-count="matchedTaskCount"
-      @toggle-theme="toggleTheme"
-      @create="openCreate"
-    />
+  <main class="flex min-h-screen flex-col bg-slate-50 text-lg text-slate-900">
+    <div aria-label="拖动窗口" class="window-drag-handle" />
     <TaskBoard
-      :is-task-match="isTaskMatch"
-      :search-query="searchQuery"
       :tasks-for-status="tasksForStatus"
       @edit-task="openEdit"
+      @delete-task="deleteTask"
       @move-task="moveTask"
+      @create="openCreate"
     />
     <TaskEditorModal
       :open="isEditorOpen"
