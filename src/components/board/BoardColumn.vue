@@ -13,12 +13,16 @@ defineProps({
   },
 })
 
-const emit = defineEmits(['drag-start', 'drop-task', 'edit-task', 'delete-task'])
+const emit = defineEmits(['create-task', 'drag-start', 'drop-task', 'edit-task', 'delete-task'])
 const isDragOver = ref(false)
 
 function onDrop(column, event) {
   isDragOver.value = false
   emit('drop-task', column.id, event)
+}
+function createTask(event) {
+  if (event.target.closest('article, button, input, textarea, select, option')) return
+  emit('create-task')
 }
 </script>
 
@@ -29,6 +33,7 @@ function onDrop(column, event) {
     @dragenter.prevent="isDragOver = true"
     @dragover.prevent
     @dragleave="isDragOver = false"
+    @click="createTask"
     @drop.prevent="onDrop(column, $event)"
   >
     <div v-if="tasks.length" class="space-y-2 overflow-hidden">
